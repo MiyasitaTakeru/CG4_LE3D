@@ -4,6 +4,7 @@
 #include "GameScene.h"
 #include "LightGroup.h"
 #include "ParticleManager.h"
+#include "FbxLoader.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
@@ -24,6 +25,9 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	dxCommon->Initialize(win);
 
 #pragma region 汎用機能初期化
+
+	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+
 	// 入力の初期化
 	input = Input::GetInstance();
 	if (!input->Initialize(win->GetInstance(), win->GetHwnd())) {
@@ -73,6 +77,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	safe_delete(gameScene);
 	safe_delete(audio);
 	safe_delete(dxCommon);
+	FbxLoader::GetInstance()->Finalize();
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();
